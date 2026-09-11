@@ -1,0 +1,19 @@
+name: Proselint
+
+on:
+  push:
+    paths:
+      - '**.md'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install proselint
+        run: pip install proselint
+      - name: Run proselint
+        run: find . -name "*.md" -not -path "./.git/*" | xargs proselint || true
